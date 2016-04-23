@@ -1,0 +1,155 @@
+buildscript {
+
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://maven.fabric.io/public'
+        }
+        maven(){
+            url "https://oss.sonatype.org/content/repositories/snapshots"
+        }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath 'de.undercouch:gradle-download-task:0.5'
+        classpath 'io.fabric.tools:gradle:1.+'
+        classpath "gradle.plugin.com.mendhak.gradlecrowdin:plugin:0.0.8"
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8' // used for https://github.com/hotchemi/PermissionsDispatcher
+    }
+
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "cz.mtrakal.android_bug_199661"
+        minSdkVersion 14
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
+    maven {
+        url 'https://github.com/Goddchen/mvn-repo/raw/master/'
+    }
+    maven {
+        url "https://repository-achartengine.forge.cloudbees.com/snapshot/"
+    }
+    maven {
+        url "http://files.couchbase.com/maven2/"
+    }
+    maven {
+        url "http://repo.commonsware.com.s3.amazonaws.com"
+    }
+    maven {
+        url 'https://maven.fabric.io/public'
+    }
+    maven {
+        url "https://jitpack.io"
+    }
+    maven {
+        url 'https://zendesk.artifactoryonline.com/zendesk/repo'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar']) // this to [] makes a shit...
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'com.android.support:support-v4:23.3.0'
+    testCompile ('org.powermock:powermock-api-mockito:1.6.2') {
+        exclude module: 'hamcrest-core'
+        exclude module: 'objenesis'
+    }
+    testCompile ('org.powermock:powermock-module-junit4:1.6.2') {
+        exclude module: 'hamcrest-core'
+        exclude module: 'objenesis'
+    }
+
+    // Google Play Services
+    compile 'com.google.android.gms:play-services-location:8.4.0'
+    compile 'com.google.android.gms:play-services-vision:8.4.0'
+
+    // Support Libraries
+    compile 'com.android.support:cardview-v7:23.3.0'
+    compile 'com.android.support:design:23.3.0'
+    compile 'com.android.support:gridlayout-v7:23.3.0'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:palette-v7:23.3.0'
+    compile 'com.android.support:support-annotations:23.3.0'
+    compile 'com.android.support:support-v4:23.3.0'
+
+    // Maps utility library (heatmap, etc.)
+    compile 'com.google.maps.android:android-maps-utils:0.4'
+
+    //https://github.com/anjlab/android-inapp-billing-v3
+    compile 'com.anjlab.android.iab.v3:library:1.0.31'
+
+    //https://github.com/ksoichiro/Android-ObservableScrollView
+    compile 'com.github.ksoichiro:android-observablescrollview:1.6.0'
+
+    // Material menu - https://github.com/balysv/material-menu
+    compile 'com.balysv.materialmenu:material-menu-toolbar:1.4.0'
+
+    // Circular imageviews - https://github.com/Pkmmte/CircularImageView
+    compile 'com.pkmmte.view:circularimageview:1.1'
+
+    // FAB
+    compile 'com.getbase:floatingactionbutton:1.10.0'
+
+    // Picasso - image loading library - http://square.github.io/picasso/
+    compile 'com.squareup.picasso:picasso:2.4.0'
+
+    // https://github.com/afollestad/material-dialogs
+    compile('com.github.afollestad.material-dialogs:core:0.8.5.6@aar') {
+        transitive = true
+    }
+
+    // https://github.com/DreaminginCodeZH/MaterialProgressBar
+    compile 'me.zhanghai.android.materialprogressbar:library:1.0.2'
+
+    compile 'com.squareup:otto:1.3.8'
+    compile 'joda-time:joda-time:2.9.2'
+
+    //crashlytics
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+        transitive = true;
+    }
+
+    // Marshmallow permissions: https://github.com/hotchemi/PermissionsDispatcher
+    compile "com.github.hotchemi:permissionsdispatcher:2.0.5"
+    apt "com.github.hotchemi:permissionsdispatcher-processor:2.0.5"
+
+    compile('io.fabric.sdk.android:fabric:1.3.10@aar') {
+        transitive = true;
+    }
+
+    // ButterKnife https://github.com/JakeWharton/butterknife
+    compile 'com.jakewharton:butterknife:7.0.1'
+
+    // Android-Job https://github.com/evernote/android-job
+    compile 'com.evernote:android-job:1.0.4'
+}
+
+// apply plugin: 'com.google.gms.google-services' // FIXME: Ask google why must be here on end: http://stackoverflow.com/a/34927454/4024146
